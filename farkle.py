@@ -11,13 +11,21 @@ def printTable(d):
     print("D5   | ", "     | "*d[4][1], d[4][0])
     print("D6   | ", "     | "*d[5][1], d[5][0])
 
-def farkle(d):
-    farkle = True
-    x = 1
+def farkle(d, roll):
+    counter = list()
+    x = 0
     index = 0
-    while x <= len(d):
-        if d[index] == 1 or d[index] == 5:
-            farkle = False
+    while x < len(d):
+        if d[x][1] == roll:
+            counter.append(d[x][0])
+            index += 1
+        x += 1
+
+    farkle = True
+    if counter.count(1) > 0 or counter.count(5) > 0:
+        farkle = False
+    elif counter.count(2) >= 3 or counter.count(3) >= 3 or counter.count(4) >= 3 or counter.count(6) >= 3:
+        farkle = False
     
     if farkle:
         print("FARKLE LOSER!!!")
@@ -85,22 +93,20 @@ def main():
     d = [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]]   
     d = roll(d, numRoll, keep)
     printTable(d)
-#    if farkle(d):
-#        return
+    if farkle(d, numRoll):
+        return
 
-    total = int(input("Which die do you want to keep (press 77 to reroll, 0 to quit): "))
+    total = int(input("Which die do you want to keep (press 7 to reroll, 0 to quit): "))
     if  total > 0:
         keep = keepDie(total)
 
-    while total is not 0:
-        x = 0
-    
+    while total is not 0 and not farkle(d, numRoll):   
         if len(keep) > 0:
             numRoll += 1
             roll(d, numRoll, keep)
             printTable(d)
 
-        total = int(input("Which die do you want to keep (press 77 to reroll, 0 to quit): "))
+        total = int(input("Which die do you want to keep (press 7 to reroll, 0 to quit): "))
         if  total > 0 and total is not 7:
             keep = keepDie(total)
         elif total == 7:
