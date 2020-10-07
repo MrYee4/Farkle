@@ -26,9 +26,6 @@ def farkle(d, roll):
         farkle = False
     elif counter.count(2) >= 3 or counter.count(3) >= 3 or counter.count(4) >= 3 or counter.count(6) >= 3:
         farkle = False
-    
-    if farkle:
-        print("FARKLE LOSER!!!")
 
     return farkle
 
@@ -106,15 +103,22 @@ def main():
             roll(d, numRoll, keep)
             printTable(d)
 
-        total = int(input("Which die do you want to keep (press 7 to reroll, 0 to quit): "))
-        if  total > 0 and total is not 7:
-            keep = keepDie(total)
-        elif total == 7:
-            d = [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]]
-            numRoll = 0
-            keep.clear()
-            d = roll(d, numRoll, keep)
-            printTable(d)
+        if not farkle(d, numRoll):
+            total = int(input("Which die do you want to keep (press 7 to reroll, 0 to quit): "))
+            if  total > 0 and total is not 7:
+                keep = keepDie(total)
+            elif total == 7:
+                d = [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]]
+                numRoll = 0
+                keep.clear()
+                d = roll(d, numRoll, keep)
+                printTable(d)
+    
+    print("FARKLE!!!")
+
+    again = input("Roll Again? (y/n): ")
+    if again == "y":
+        main()
 
 
 
